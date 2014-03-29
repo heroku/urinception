@@ -15,7 +15,7 @@ func main() {
 		match := r.FindStringSubmatch(dataurl)
 		if len(match) == 0 {
 			fmt.Println("match.error.input:", dataurl)
-			http.Error(res, "Parameter `url` must be present and in RFC 2397 form", http.StatusBadRequest)
+			http.Error(res, "Parameter 'url' must be present and in RFC 2397 form", http.StatusBadRequest)
 			return
 		}
 
