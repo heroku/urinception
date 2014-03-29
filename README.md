@@ -20,18 +20,19 @@ this service would not be needed, but this acts an adaptor for such clients.
 
 How
 ---
-Set a Data URL in the standard [RFC 2397](https://www.ietf.org/rfc/rfc2397.txt) format 
-as a single query parameter to this service.
+1. Create a Data URL in the standard [RFC 2397](https://www.ietf.org/rfc/rfc2397.txt) format 
+2. URL encode the Data URL
+3. Set the `url` query parameter on any path this service to the value of the encoded string.
 
 Example
 -------
-[`http://here-url.herokuapp.com/?data:image/gif;base64,R0lG...AA7`](http://here-url.herokuapp.com/?data:image/gif;base64,R0lGODdhMAAwAPAAAAAAAP///ywAAAAAMAAwAAAC8IyPqcvt3wCcDkiLc7C0qwyGHhSWpjQu5yqmCYsapyuvUUlvONmOZtfzgFzByTB10QgxOR0TqBQejhRNzOfkVJ+5YiUqrXF5Y5lKh/DeuNcP5yLWGsEbtLiOSpa/TPg7JpJHxyendzWTBfX0cxOnKPjgBzi4diinWGdkF8kjdfnycQZXZeYGejmJlZeGl9i2icVqaNVailT6F5iJ90m6mvuTS4OK05M0vDk0Q4XUtwvKOzrcd3iq9uisF81M1OIcR7lEewwcLp7tuNNkM3uNna3F2JQFo97Vriy/Xl4/f1cf5VWzXyym7PHhhx4dbgYKAAA7)
+[`http://here-url.herokuapp.com/?url=data%3Aimage%2Fgif%3Bbase64%2CR0lGOD...AA7`](http://here-url.herokuapp.com/?url=data%3Aimage%2Fgif%3Bbase64%2CR0lGODdhMAAwAPAAAAAAAP%2F%2F%2FywAAAAAMAAwAAAC8IyPqcvt3wCcDkiLc7C0qwyGHhSWpjQu5yqmCYsapyuvUUlvONmOZtfzgFzByTB10QgxOR0TqBQejhRNzOfkVJ%2B5YiUqrXF5Y5lKh%2FDeuNcP5yLWGsEbtLiOSpa%2FTPg7JpJHxyendzWTBfX0cxOnKPjgBzi4diinWGdkF8kjdfnycQZXZeYGejmJlZeGl9i2icVqaNVailT6F5iJ90m6mvuTS4OK05M0vDk0Q4XUtwvKOzrcd3iq9uisF81M1OIcR7lEewwcLp7tuNNkM3uNna3F2JQFo97Vriy%2FXl4%2Ff1cf5VWzXyym7PHhhx4dbgYKAAA7)
 
 
 Syntax
 ------
 ```
-httpurl    := "http://here-url.herokuapp.com/" "?" dataurl
+httpurl    := "http://here-url.herokuapp.com" *urlchar "?url=" dataurl
 dataurl    := "data:" [ mediatype ] [ ";base64" ] "," data
 mediatype  := [ type "/" subtype ] *( ";" parameter )
 data       := *urlchar

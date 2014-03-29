@@ -11,7 +11,7 @@ import (
 func main() {
 	r, _ := regexp.Compile("^data:(.*?)?(;base64)?,(.+)$")
 	http.HandleFunc("/", func(res http.ResponseWriter, req *http.Request) {
-		dataurl := req.URL.RawQuery
+		dataurl := req.URL.Query().Get("url")
 		match := r.FindStringSubmatch(dataurl)
 		if len(match) == 0 {
 			fmt.Println("match.error.input:", dataurl)
