@@ -11,12 +11,13 @@ import (
 	"regexp"
 )
 
+var dataUrlPattern *regexp.Regexp
+
 func handleGet(res http.ResponseWriter, req *http.Request) {
-	r, _ := regexp.Compile("^data:(.*?)?(;base64)?,(.+)$")
-	dataurl := req.URL.Query().Get("url")
-	match := r.FindStringSubmatch(dataurl)
+	dataUrl := req.URL.Query().Get("url")
+	match := dataUrlPattern.FindStringSubmatch(dataUrl)
 	if len(match) == 0 {
-		log.Println("match.error.input:", dataurl)
+		log.Println("match.error.input:", dataUrl)
 		http.Error(res, "Parameter 'url' must be present and in RFC 2397 form", http.StatusBadRequest)
 		return
 	}
@@ -30,7 +31,7 @@ func handleGet(res http.ResponseWriter, req *http.Request) {
 	if isBase64 {
 		decoded, err := base64.StdEncoding.DecodeString(data)
 		if err != nil {
-			log.Println("base64.decode.error:", err, "dataurl:", dataurl)
+			log.Println("base64.decode.error:", err, "dataUrl:", dataUrl)
 			http.Error(res, "Error decoding base64: "+err.Error(), http.StatusBadRequest)
 			return
 		}
@@ -64,6 +65,8 @@ func handlePost(res http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
+	dataUrlPattern, _ = regexp.Compile("^data:(.*?)?(;base64)?,(.+)$")
+
 	http.HandleFunc("/", func(res http.ResponseWriter, req *http.Request) {
 		switch req.Method {
 		case "GET":
