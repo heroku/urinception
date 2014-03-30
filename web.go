@@ -14,10 +14,10 @@ import (
 var dataUrlPattern *regexp.Regexp
 
 func handleGet(res http.ResponseWriter, req *http.Request) {
-	dataUrl := req.URL.Query().Get("url")
-	match := dataUrlPattern.FindStringSubmatch(dataUrl)
+	url := req.URL.Query().Get("url")
+	match := dataUrlPattern.FindStringSubmatch(url)
 	if len(match) == 0 {
-		log.Println("get.error.url:", dataUrl)
+		log.Println("get.error.url:", url)
 		http.Error(res, "Parameter 'url' must be present and in RFC 2397 form", http.StatusBadRequest)
 		return
 	}
