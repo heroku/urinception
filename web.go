@@ -17,7 +17,7 @@ func handleGet(res http.ResponseWriter, req *http.Request) {
 	dataUrl := req.URL.Query().Get("url")
 	match := dataUrlPattern.FindStringSubmatch(dataUrl)
 	if len(match) == 0 {
-		log.Println("match.error.input:", dataUrl)
+		log.Println("get.error.url:", dataUrl)
 		http.Error(res, "Parameter 'url' must be present and in RFC 2397 form", http.StatusBadRequest)
 		return
 	}
@@ -25,13 +25,12 @@ func handleGet(res http.ResponseWriter, req *http.Request) {
 	contentType := match[1]
 	isBase64 := match[2] != ""
 	data := match[3]
-	log.Println("request.type:", contentType, "request.base64:", isBase64)
 
 	res.Header().Set("Content-Type", contentType)
 	if isBase64 {
 		decoded, err := base64.StdEncoding.DecodeString(data)
 		if err != nil {
-			log.Println("base64.decode.error:", err, "dataUrl:", dataUrl)
+			log.Println("get.error.base64.decode:", err)
 			http.Error(res, "Error decoding base64: "+err.Error(), http.StatusBadRequest)
 			return
 		}
@@ -49,7 +48,7 @@ func handlePost(res http.ResponseWriter, req *http.Request) {
 
 	data, err := ioutil.ReadAll(req.Body)
 	if err != nil {
-		log.Println("post.read.error:", err)
+		log.Println("post.error.body:", err)
 		http.Error(res, "Error reading request body: "+err.Error(), http.StatusBadRequest)
 		return
 	}
