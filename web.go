@@ -35,7 +35,7 @@ func handleGet(res http.ResponseWriter, req *http.Request) {
 		}
 		res.Write(decoded)
 	} else {
-		fmt.Fprintln(res, data)
+		fmt.Fprint(res, data)
 	}
 }
 
