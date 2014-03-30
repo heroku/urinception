@@ -78,9 +78,10 @@ func main() {
 		}
 	})
 
-	log.Println("listening:true port:", os.Getenv("PORT"))
-	err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
+    port := os.Getenv("PORT")
+	err := http.ListenAndServe(":"+port, nil)
 	if err != nil {
 		panic(err)
 	}
+	log.Println("listening:true port:", port)
 }
