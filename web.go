@@ -21,7 +21,6 @@ func handleGet(res http.ResponseWriter, req *http.Request) {
 		http.Error(res, "Parameter 'url' must be present and in RFC 2397 form", http.StatusBadRequest)
 		return
 	}
-
 	contentType := match[1]
 	isBase64 := match[2] != ""
 	data := match[3]
