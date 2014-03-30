@@ -61,7 +61,9 @@ func handlePost(res http.ResponseWriter, req *http.Request) {
 
 	base64 := base64.StdEncoding.EncodeToString(data)
 	dataUrl := "data:" + contentType + ";base64," + base64
-	fmt.Fprint(res, scheme+"://"+req.Host+"/?url="+url.QueryEscape(dataUrl))
+	url := scheme + "://" + req.Host + req.URL.Path + "?url=" + url.QueryEscape(dataUrl)
+
+	fmt.Fprint(res, url)
 }
 
 func main() {
