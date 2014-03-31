@@ -11,14 +11,14 @@ import (
 	"regexp"
 )
 
-var dataUrlPattern *regexp.Regexp
+var datauriPattern *regexp.Regexp
 
 func handleGet(res http.ResponseWriter, req *http.Request) {
-	url := req.URL.Query().Get("url")
-	match := dataUrlPattern.FindStringSubmatch(url)
+	uri := req.URL.Query().Get("uri")
+	match := datauriPattern.FindStringSubmatch(uri)
 	if len(match) == 0 {
-		log.Println("get.error.url:", url)
-		http.Error(res, "Parameter 'url' must be present and in RFC 2397 form", http.StatusBadRequest)
+		log.Println("get.error.uri:", uri)
+		http.Error(res, "Parameter 'uri' must be present and in RFC 2397 form", http.StatusBadRequest)
 		return
 	}
 	contentType := match[1]
@@ -58,14 +58,14 @@ func handlePost(res http.ResponseWriter, req *http.Request) {
 	}
 
 	base64 := base64.StdEncoding.EncodeToString(data)
-	dataUrl := "data:" + contentType + ";base64," + base64
-	url := scheme + "://" + req.Host + req.URL.Path + "?url=" + url.QueryEscape(dataUrl)
+	datauri := "data:" + contentType + ";base64," + base64
+	uri := scheme + "://" + req.Host + req.URL.Path + "?uri=" + url.QueryEscape(datauri)
 
-	fmt.Fprint(res, url)
+	fmt.Fprint(res, uri)
 }
 
 func main() {
-	dataUrlPattern, _ = regexp.Compile("^data:(.*?)?(;base64)?,(.+)$")
+	datauriPattern, _ = regexp.Compile("^data:(.*?)?(;base64)?,(.+)$")
 
 	http.HandleFunc("/", func(res http.ResponseWriter, req *http.Request) {
 		switch req.Method {
@@ -79,9 +79,9 @@ func main() {
 	})
 
     port := os.Getenv("PORT")
+	log.Println("listening:true port:", port)
 	err := http.ListenAndServe(":"+port, nil)
 	if err != nil {
 		panic(err)
 	}
-	log.Println("listening:true port:", port)
 }
