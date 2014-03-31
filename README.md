@@ -14,7 +14,7 @@ For example, this is a Data URI of an image of a red dot:
 Modern web browsers can load this directly, but many clients don't understand the `data` scheme. 
 URInception is a simple service that serves Data URIs over HTTP. Here is the same image over HTTP:
 
-    http://urinception.herokuapp.com/?uri=data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4%2F%2F8%2Fw38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg%3D%3D
+    http://example.com/?uri=data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4%2F%2F8%2Fw38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg%3D%3D
 
 URInception
 
@@ -45,18 +45,18 @@ otherwise, the `mediatype` will be guessed from the data.
 
 For example, to create the URI of the red dot above:
 
-    $ curl http://urinception.herokuapp.com -X POST --data-binary @reddot.png
-    http://urinception.herokuapp.com/?uri=data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4%2F%2F8%2Fw38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg%3D%3D
+    $ curl http://example.com -X POST --data-binary @reddot.png
+    http://example.com/?uri=data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4%2F%2F8%2Fw38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg%3D%3D
 
 The `mediatype` will automatically be detected as `image/png`; however, if you want to specify it yourself, set the `Content-Type` header
 
-    $ curl http://urinception.herokuapp.com -X POST --data-binary '<tag/>' -H 'Content-Type: text/xml'
-    http://urinception.herokuapp.com/?uri=data%3Atext%2Fxml%3Bbase64%2CPHRhZy8%2B
+    $ curl http://example.com -X POST --data-binary '<tag/>' -H 'Content-Type: text/xml'
+    http://example.com/?uri=data%3Atext%2Fxml%3Bbase64%2CPHRhZy8%2B
 
 So far these example have not specified a path; however, if one is specified, it will be returned in the URI. This is helpful for clients that expect certain paths or file extensions. The XML example again with a path:
 
-    $ curl http://urinception.herokuapp.com/example.xml -X POST --data-binary '<tag/>' -H 'Content-Type: text/xml'
-    http://urinception.herokuapp.com/example.xml?uri=data%3Atext%2Fxml%3Bbase64%2CPHRhZy8%2B
+    $ curl http://example.com/example.xml -X POST --data-binary '<tag/>' -H 'Content-Type: text/xml'
+    http://example.com/example.xml?uri=data%3Atext%2Fxml%3Bbase64%2CPHRhZy8%2B
 
 ## Syntax
 ```
@@ -66,3 +66,12 @@ mediatype  := [ type "/" subtype ] *( ";" parameter )
 data       := *urlchar
 parameter  := attribute "=" value
 ```
+
+## Testing
+
+    $ go test
+
+## Deployment
+
+    $ heroku create --buildpack https://github.com/kr/heroku-buildpack-go.git
+    $ git push heroku master
