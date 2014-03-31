@@ -13,6 +13,33 @@ import (
 
 var datauriPattern *regexp.Regexp
 
+func main() {
+	compileDatauriPattern()
+
+	http.HandleFunc("/", func(res http.ResponseWriter, req *http.Request) {
+		switch req.Method {
+		case "GET":
+			handleGet(res, req)
+		case "POST":
+			handlePost(res, req)
+		default:
+			http.Error(res, "Only GET and POST supported", http.StatusMethodNotAllowed)
+		}
+	})
+
+	port := os.Getenv("PORT")
+	log.Println("listening:true port:", port)
+	log.Fatal(http.ListenAndServe(":"+port, nil))
+}
+
+func compileDatauriPattern() {
+	var err error
+	datauriPattern, err = regexp.Compile("^data:(.*?)?(;base64)?,(.+)$")
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
 func handleGet(res http.ResponseWriter, req *http.Request) {
 	uri := req.URL.Query().Get("uri")
 	match := datauriPattern.FindStringSubmatch(uri)
@@ -62,26 +89,4 @@ func handlePost(res http.ResponseWriter, req *http.Request) {
 	uri := scheme + "://" + req.Host + req.URL.Path + "?uri=" + url.QueryEscape(datauri)
 
 	fmt.Fprint(res, uri)
-}
-
-func main() {
-	datauriPattern, _ = regexp.Compile("^data:(.*?)?(;base64)?,(.+)$")
-
-	http.HandleFunc("/", func(res http.ResponseWriter, req *http.Request) {
-		switch req.Method {
-		case "GET":
-			handleGet(res, req)
-		case "POST":
-			handlePost(res, req)
-		default:
-			http.Error(res, "Only GET and POST supported", http.StatusMethodNotAllowed)
-		}
-	})
-
-    port := os.Getenv("PORT")
-	log.Println("listening:true port:", port)
-	err := http.ListenAndServe(":"+port, nil)
-	if err != nil {
-		panic(err)
-	}
 }
