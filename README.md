@@ -38,7 +38,8 @@ See the [syntax](#syntax) below for details.
 
 ### Server-Side
 
-POST data to any path on this service and an URI will be returned. 
+POST data to any path on this service and a URI will be returned as a 
+[`text/uri-list`](http://tools.ietf.org/html/rfc2483) of one. 
 If a `Content-Type` header is include, it will be used as the Data URI's `mediatype`;
 otherwise, the `mediatype` will be guessed from the data. 
 

@@ -27,7 +27,8 @@ func TestHandlePost(t *testing.T) {
 	res := httptest.NewRecorder()
 	handlePost(res, req)
 
-	assertEquals(t, res.Body.String(), uri)
+	assertEquals(t, res.Body.String(), uri+"\n")
+	assertEquals(t, res.Header().Get("Content-Type"), "text/uri-list; charset=utf-8")
 	assertEquals(t, res.Code, 200)
 }
 

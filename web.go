@@ -88,5 +88,6 @@ func handlePost(res http.ResponseWriter, req *http.Request) {
 	datauri := "data:" + contentType + ";base64," + base64
 	uri := scheme + "://" + req.Host + req.URL.Path + "?uri=" + url.QueryEscape(datauri)
 
-	fmt.Fprint(res, uri)
+	res.Header().Set("Content-Type", "text/uri-list; charset=utf-8")
+	fmt.Fprintln(res, uri)
 }
