@@ -3,32 +3,63 @@ package main
 import (
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"strings"
 	"testing"
 )
 
+const ContentType = "Content-Type"
+
 const base = "http://example.com"
-const data = "hello, world"
-const uri = base + "?uri=data%3Atext%2Fplain%3B+charset%3Dutf-8%3Bbase64%2CaGVsbG8sIHdvcmxk"
+const text = "hello, world"
+const plainTextType = "text/plain; charset=utf-8"
+const textBase64 = "aGVsbG8sIHdvcmxk"
+
+func uri(contentType string, data string) string {
+	return (base + "?uri=" + url.QueryEscape("data:" + contentType + ";base64," + data))
+}
 
 func TestHandleGet(t *testing.T) {
-	req, _ := http.NewRequest("GET", uri, nil)
+	req, _ := http.NewRequest("GET", uri(plainTextType, textBase64), nil)
 	res := httptest.NewRecorder()
-	compileDatauriPattern()
 	handleGet(res, req)
 
-	assertEquals(t, res.Body.String(), data)
-	assertEquals(t, res.Header().Get("Content-Type"), "text/plain; charset=utf-8")
+	assertEquals(t, res.Body.String(), text)
+	assertEquals(t, res.Header().Get(ContentType), plainTextType)
 	assertEquals(t, res.Code, 200)
 }
 
+func TestHandleGetNoContentType(t *testing.T) {
+	req, _ := http.NewRequest("GET", uri("", textBase64), nil)
+	res := httptest.NewRecorder()
+	handleGet(res, req)
+
+	assertEquals(t, res.Body.String(), text)
+	assertEquals(t, res.Header().Get(ContentType), "")
+	assertEquals(t, res.Code, 200)
+}
+
+func TestHandleGetNoUri(t *testing.T) {
+	req, _ := http.NewRequest("GET", "/path", nil)
+	res := httptest.NewRecorder()
+	handleGet(res, req)
+	assertEquals(t, res.Code, 400)
+}
+
+func TestHandleGetBadUri(t *testing.T) {
+	req, _ := http.NewRequest("GET", "/path?uri=junk", nil)
+	res := httptest.NewRecorder()
+	handleGet(res, req)
+	assertEquals(t, res.Code, 400)
+}
+
 func TestHandlePost(t *testing.T) {
-	req, _ := http.NewRequest("POST", base, strings.NewReader(data))
+	req, _ := http.NewRequest("POST", base, strings.NewReader(text))
 	res := httptest.NewRecorder()
 	handlePost(res, req)
 
-	assertEquals(t, res.Body.String(), uri+"\n")
-	assertEquals(t, res.Header().Get("Content-Type"), "text/uri-list; charset=utf-8")
+	assertEquals(t, res.Body.String(), uri(plainTextType, textBase64)+"\n")
+	assertEquals(t, res.Header().Get(ContentType), "text/uri-list; charset=utf-8")
 	assertEquals(t, res.Code, 200)
 }
 

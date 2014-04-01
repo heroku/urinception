@@ -13,9 +13,11 @@ import (
 
 var datauriPattern *regexp.Regexp
 
-func main() {
+func init() {
 	compileDatauriPattern()
+}
 
+func main() {
 	http.HandleFunc("/", func(res http.ResponseWriter, req *http.Request) {
 		switch req.Method {
 		case "GET":
