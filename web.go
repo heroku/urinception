@@ -9,6 +9,7 @@ import (
 	"net/url"
 	"os"
 	"regexp"
+	"strconv"
 )
 
 var datauriPattern *regexp.Regexp
@@ -53,6 +54,16 @@ func handleGet(res http.ResponseWriter, req *http.Request) {
 	contentType := match[1]
 	isBase64 := match[2] != ""
 	data := match[3]
+
+	if req.URL.Query().Get("status") != "" {
+		statusCode, err := strconv.Atoi(req.URL.Query().Get("status"))
+		if err != nil {
+			log.Println("get.error.base64.decode:", err)
+			http.Error(res, "Error parsing status code to integer", http.StatusBadRequest)
+			return
+		}
+		res.WriteHeader(statusCode)
+	}
 
 	res.Header().Set("Content-Type", contentType)
 	if isBase64 {

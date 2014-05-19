@@ -16,7 +16,7 @@ const plainTextType = "text/plain; charset=utf-8"
 const textBase64 = "aGVsbG8sIHdvcmxk"
 
 func uri(contentType string, data string) string {
-	return (base + "?uri=" + url.QueryEscape("data:" + contentType + ";base64," + data))
+	return (base + "?uri=" + url.QueryEscape("data:"+contentType+";base64,"+data))
 }
 
 func TestHandleGet(t *testing.T) {
@@ -27,6 +27,26 @@ func TestHandleGet(t *testing.T) {
 	assertEquals(t, res.Body.String(), text)
 	assertEquals(t, res.Header().Get(ContentType), plainTextType)
 	assertEquals(t, res.Code, 200)
+}
+
+func TestHandleGetCustomStatus(t *testing.T) {
+	req, _ := http.NewRequest("GET", uri(plainTextType, textBase64)+"&status=403", nil)
+	res := httptest.NewRecorder()
+	handleGet(res, req)
+
+	assertEquals(t, res.Body.String(), text)
+	assertEquals(t, res.Header().Get(ContentType), plainTextType)
+	assertEquals(t, res.Code, 403)
+}
+
+func TestHandleGetCustomStatusUnparsable(t *testing.T) {
+	req, _ := http.NewRequest("GET", uri(plainTextType, textBase64)+"&status=X", nil)
+	res := httptest.NewRecorder()
+	handleGet(res, req)
+
+	assertEquals(t, res.Body.String(), "Error parsing status code to integer\n")
+	assertEquals(t, res.Header().Get(ContentType), plainTextType)
+	assertEquals(t, res.Code, 400)
 }
 
 func TestHandleGetNoContentType(t *testing.T) {
