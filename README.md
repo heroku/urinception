@@ -56,7 +56,7 @@ So far these example have not specified a path; however, if one is specified, it
     $ curl http://example.com/example.xml -X POST --data-binary '<tag/>' -H 'Content-Type: text/xml'
     http://example.com/example.xml?uri=data%3Atext%2Fxml%3Bbase64%2CPHRhZy8%2B
 
-### Custom HTTP Status
+### Custom HTTP Statuses
 
 By default, all URIs return an HTTP status of `200 OK`; however, this can be overridden with the `status` parameter.
 
