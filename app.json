@@ -1,0 +1,17 @@
+{
+    "name": "URInception",
+    "description": "Data URIs over HTTP",
+    "website": "https://github.com/heroku/urinception",
+    "repository": "https://github.com/heroku/urinception",
+    "logo": "http://upload.wikimedia.org/wikipedia/commons/1/19/Moebius_strip.svg",
+    "success_url": "/?uri=data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4%2F%2F8%2Fw38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg%3D%3D",
+    "keywords": [
+        "data uri",
+        "testing",
+        "rest",
+        "url"
+    ],
+    "env": {
+        "BUILDPACK_URL": "https://github.com/kr/heroku-buildpack-go.git"
+    }
+}
