@@ -1,6 +1,8 @@
 # URInception
 [Data URIs](http://en.wikipedia.org/wiki/Data_URI_scheme) over HTTP.
 
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/heroku/urinception)
+
 ## Overview
 [Data URIs](http://en.wikipedia.org/wiki/Data_URI_scheme) are great for encoding 
 small amounts of data directly in a URI without requiring a server or storage; 
@@ -78,3 +80,7 @@ httpstatus := int
 
     $ heroku create --buildpack https://github.com/kr/heroku-buildpack-go.git
     $ git push heroku master
+    
+... or just:
+
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/heroku/urinception)
