@@ -25,6 +25,8 @@ func main() {
 			handleGet(res, req)
 		case "POST":
 			handlePost(res, req)
+		case "PUT":
+			handlePost(res, req)
 		default:
 			http.Error(res, "Only GET and POST supported", http.StatusMethodNotAllowed)
 		}
