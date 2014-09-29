@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/base64"
 	"fmt"
-	"github.com/heroku/urinception/urinception"
+	"github.com/heroku/urinception"
 	"io/ioutil"
 	"log"
 	"net/http"

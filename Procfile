@@ -1,1 +1,1 @@
-web: urinception
+web: urinception-web
