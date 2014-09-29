@@ -83,6 +83,16 @@ func TestHandlePost(t *testing.T) {
 	assertEquals(t, res.Code, 200)
 }
 
+func TestHandlePostCustomStatus(t *testing.T) {
+	req, _ := http.NewRequest("POST", base+"?status=403", strings.NewReader(text))
+	res := httptest.NewRecorder()
+	handlePost(res, req)
+
+	assertEquals(t, res.Body.String(), uri(plainTextType, textBase64)+"\n")
+	assertEquals(t, res.Header().Get(ContentType), "text/uri-list; charset=utf-8")
+	assertEquals(t, res.Code, 403)
+}
+
 func assertEquals(t *testing.T, actual interface{}, expected interface{}) {
 	if actual != expected {
 		t.Errorf("Actual: '%v'; Expected: '%v'", actual, expected)

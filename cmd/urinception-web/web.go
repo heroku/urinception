@@ -57,14 +57,8 @@ func handleGet(res http.ResponseWriter, req *http.Request) {
 	isBase64 := match[2] != ""
 	data := match[3]
 
-	if req.URL.Query().Get("status") != "" {
-		statusCode, err := strconv.Atoi(req.URL.Query().Get("status"))
-		if err != nil {
-			log.Println("get.error.base64.decode:", err)
-			http.Error(res, "Error parsing status code to integer", http.StatusBadRequest)
-			return
-		}
-		res.WriteHeader(statusCode)
+	if err := handleStatusParam(res, req); err != nil {
+		return
 	}
 
 	res.Header().Set("Content-Type", contentType)
@@ -94,8 +88,25 @@ func handlePost(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	if err := handleStatusParam(res, req); err != nil {
+		return
+	}
+
 	res.Header().Set("Content-Type", "text/uri-list; charset=utf-8")
 	contentType := req.Header.Get("Content-Type")
 	uri := urinception.CreateUri(scheme, req.Host, req.URL.Path, contentType, data)
 	fmt.Fprintln(res, uri)
+}
+
+func handleStatusParam(res http.ResponseWriter, req *http.Request) error {
+	if req.URL.Query().Get("status") != "" {
+		statusCode, err := strconv.Atoi(req.URL.Query().Get("status"))
+		if err != nil {
+			log.Println("status.parse.error:", err)
+			http.Error(res, "Error parsing status code to integer", http.StatusBadRequest)
+			return err
+		}
+		res.WriteHeader(statusCode)
+	}
+	return nil
 }
