@@ -3,10 +3,10 @@ package main
 import (
 	"encoding/base64"
 	"fmt"
+	"github.com/heroku/urinception/urinception"
 	"io/ioutil"
 	"log"
 	"net/http"
-	"net/url"
 	"os"
 	"regexp"
 	"strconv"
@@ -94,15 +94,8 @@ func handlePost(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	contentType := req.Header.Get("Content-Type")
-	if contentType == "" || contentType == "application/x-www-form-urlencoded" {
-		contentType = http.DetectContentType(data)
-	}
-
-	base64 := base64.StdEncoding.EncodeToString(data)
-	datauri := "data:" + contentType + ";base64," + base64
-	uri := scheme + "://" + req.Host + req.URL.Path + "?uri=" + url.QueryEscape(datauri)
-
 	res.Header().Set("Content-Type", "text/uri-list; charset=utf-8")
+	contentType := req.Header.Get("Content-Type")
+	uri := urinception.CreateUri(scheme, req.Host, req.URL.Path, contentType, data)
 	fmt.Fprintln(res, uri)
 }
