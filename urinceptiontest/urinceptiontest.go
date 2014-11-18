@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/heroku/urinception"
 	web "github.com/heroku/urinception/cmd/urinception-web"
+	"io/ioutil"
 	"net"
 	"net/http"
 	"regexp"
@@ -49,6 +50,15 @@ func EmptyUri() string {
 
 func StringUri(data string) string {
 	return BytesUri([]byte(data))
+}
+
+func FileUri(filename string) string {
+	bytes, err := ioutil.ReadFile(filename)
+	if err != nil {
+		return WithStatus("", http.StatusInternalServerError)
+	} else {
+		return BytesUri(bytes)
+	}
 }
 
 func BytesUri(data []byte) string {
