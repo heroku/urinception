@@ -44,8 +44,8 @@ func setAvailablePort() {
 	port = portRegex.FindStringSubmatch(l.Addr().String())[1]
 }
 
-func EmptyUri() string {
-	return BytesUri([]byte{})
+func NullUri() string {
+	return StringUri("\x00")
 }
 
 func StringUri(data string) string {
@@ -67,14 +67,14 @@ func BytesUri(data []byte) string {
 
 func WithStatus(uri string, statusCode int) string {
 	if uri == "" {
-		uri = EmptyUri()
+		uri = NullUri()
 	}
 	return fmt.Sprintf("%s&status=%d", uri, statusCode)
 }
 
 func WithPath(uri string, path string) string {
 	if uri == "" {
-		uri = EmptyUri()
+		uri = NullUri()
 	}
 	parts := strings.SplitN(uri, "/?", 2)
 	return parts[0] + path + parts[1]
