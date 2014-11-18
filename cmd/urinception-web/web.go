@@ -19,6 +19,10 @@ func init() {
 }
 
 func main() {
+	Start(os.Getenv("PORT"))
+}
+
+func Start(port string) {
 	http.HandleFunc("/", func(res http.ResponseWriter, req *http.Request) {
 		switch req.Method {
 		case "GET":
@@ -32,7 +36,6 @@ func main() {
 		}
 	})
 
-	port := os.Getenv("PORT")
 	log.Println("listening:true port:", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
