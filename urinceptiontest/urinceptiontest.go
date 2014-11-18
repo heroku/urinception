@@ -44,14 +44,19 @@ func setAvailablePort() {
 	port = portRegex.FindStringSubmatch(l.Addr().String())[1]
 }
 
+// Create a URI returning a null character
+// Not too useful on its own, but can be used as a dummy URI
+// or with a special status or path
 func NullUri() string {
 	return StringUri("\x00")
 }
 
+// Create a URI returning the string provided
 func StringUri(data string) string {
 	return BytesUri([]byte(data))
 }
 
+// Create a URI returning the contents of the file provided
 func FileUri(filename string) string {
 	bytes, err := ioutil.ReadFile(filename)
 	if err != nil {
@@ -61,10 +66,13 @@ func FileUri(filename string) string {
 	}
 }
 
+// Create a URI returning the bytes provided
 func BytesUri(data []byte) string {
 	return urinception.CreateUri(scheme, host+":"+port, "/", http.DetectContentType(data), data)
 }
 
+// Transform an existing URI to return the HTTP status provided
+// If no URI is provided, a dummy value will be used
 func WithStatus(uri string, statusCode int) string {
 	if uri == "" {
 		uri = NullUri()
@@ -72,6 +80,8 @@ func WithStatus(uri string, statusCode int) string {
 	return fmt.Sprintf("%s&status=%d", uri, statusCode)
 }
 
+// Transform an existing URI to include the path provided
+// If no URI is provided, a dummy value will be used
 func WithPath(uri string, path string) string {
 	if uri == "" {
 		uri = NullUri()

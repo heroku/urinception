@@ -26,7 +26,7 @@ without having the host the file anywhere. If clients like `curl` supported Data
 this service would not be needed, but this acts an adapter for such clients.
 
 ## Usage
-URIs for use with this service can be constructed by the client or server. It is more efficient and simple enough to create them client-side, but a server-side URI builder is provided as convenience and for RESTful symmetry. 
+URIs for use with this service can be constructed by the client or server. It is more efficient and simple enough to create them client-side, but a server-side URI builder is provided as convenience and for RESTful symmetry. The `urinceptiontest` package is also included that runs URInception locally for use with tests in other Go applications that need to test HTTP callouts without external dependencies or network latency.
 
 ### Client-Side
 
