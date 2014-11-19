@@ -72,7 +72,7 @@ For example, if a test that wants to assert `http.Get` works,
 `urinceptiontest` can be used to create a URI that will return
 a given response body:
 
-    import github.com/heroku/urinception/urinceptiontest
+    import "github.com/heroku/urinception/urinceptiontest"
 
     // create the URI fixture
     txt := "hello world"

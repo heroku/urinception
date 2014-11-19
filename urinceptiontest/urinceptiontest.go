@@ -11,7 +11,7 @@
 	`urinceptiontest` can be used to create a URI that will return
 	a given response body:
 
-		import github.com/heroku/urinception/urinceptiontest
+		import "github.com/heroku/urinception/urinceptiontest"
 
 		// create the URI fixture
 		txt := "hello world"
