@@ -7,7 +7,6 @@ import (
 	"io/ioutil"
 	"net"
 	"net/http"
-	"regexp"
 	"strings"
 	"sync"
 )
@@ -40,8 +39,10 @@ func setAvailablePort() {
 		panic(err)
 	}
 
-	portRegex := regexp.MustCompile(".*?(\\d+)$")
-	port = portRegex.FindStringSubmatch(l.Addr().String())[1]
+	_, port, err = net.SplitHostPort(l.Addr().String())
+	if err != nil {
+		panic(err)
+	}
 }
 
 // Create a URI returning a null character
