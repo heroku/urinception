@@ -110,7 +110,7 @@ httpstatus := int
 
 ## Deployment
 
-    $ heroku create --buildpack https://github.com/kr/heroku-buildpack-go.git
+    $ heroku create
     $ git push heroku master
     
 ... or just:
