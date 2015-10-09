@@ -41,7 +41,7 @@ import (
 	"sync"
 
 	"github.com/heroku/urinception"
-	web "github.com/heroku/urinception/cmd/urinception-web"
+	"github.com/heroku/urinception/web"
 )
 
 var (
