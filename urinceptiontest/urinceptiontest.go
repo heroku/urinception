@@ -34,13 +34,14 @@ package urinceptiontest
 
 import (
 	"fmt"
-	"github.com/heroku/urinception"
-	web "github.com/heroku/urinception/cmd/urinception-web"
 	"io/ioutil"
 	"net"
 	"net/http"
 	"strings"
 	"sync"
+
+	"github.com/heroku/urinception"
+	web "github.com/heroku/urinception/cmd/urinception-web"
 )
 
 var (
