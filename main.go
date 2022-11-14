@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/heroku/urinception/web"
+	"github.com/heroku/urinception/cmd/web"
 )
 
 func main() {

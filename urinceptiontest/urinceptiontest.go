@@ -1,34 +1,33 @@
 /*
-	Package `urinceptiontest` provides other Go applications
-	a way to run URInception locally for use in tests.
-	Importing `urinceptiontest` automatically starts an HTTP
-	server on a random port on the local machine. Several
-	methods are provided to create URI fixtures that can be
-	be passed the system under test which will call the
-	local server.
+Package `urinceptiontest` provides other Go applications
+a way to run URInception locally for use in tests.
+Importing `urinceptiontest` automatically starts an HTTP
+server on a random port on the local machine. Several
+methods are provided to create URI fixtures that can be
+be passed the system under test which will call the
+local server.
 
-	For example, if a test that wants to assert `http.Get` works,
-	`urinceptiontest` can be used to create a URI that will return
-	a given response body:
+For example, if a test that wants to assert `http.Get` works,
+`urinceptiontest` can be used to create a URI that will return
+a given response body:
 
-		import "github.com/heroku/urinception/urinceptiontest"
+	import "github.com/heroku/urinception/urinceptiontest"
 
-		// create the URI fixture
-		txt := "hello world"
-		uri := urinceptiontest.StringUri(txt)
+	// create the URI fixture
+	txt := "hello world"
+	uri := urinceptiontest.StringUri(txt)
 
-		// pass the URI to the system under test
-		res, _ := http.Get(uri)
-		defer res.Body.Close()
-		bytes, _ := ioutil.ReadAll(res.Body)
+	// pass the URI to the system under test
+	res, _ := http.Get(uri)
+	defer res.Body.Close()
+	bytes, _ := ioutil.ReadAll(res.Body)
 
-		// assert the result
-		obtained := string(bytes)
-		expected := txt
-		if obtained != expected {
-			t.Errorf("Obtained: '%v'; Expected: '%v'", obtained, expected)
-		}
-
+	// assert the result
+	obtained := string(bytes)
+	expected := txt
+	if obtained != expected {
+		t.Errorf("Obtained: '%v'; Expected: '%v'", obtained, expected)
+	}
 */
 package urinceptiontest
 
@@ -40,8 +39,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/heroku/urinception"
-	"github.com/heroku/urinception/web"
+	"github.com/heroku/urinception/cmd/urinception"
+	"github.com/heroku/urinception/cmd/web"
 )
 
 var (

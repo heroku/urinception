@@ -9,7 +9,7 @@ import (
 	"regexp"
 	"strconv"
 
-	"github.com/heroku/urinception"
+	"github.com/heroku/urinception/cmd/urinception"
 )
 
 var datauriPattern *regexp.Regexp
