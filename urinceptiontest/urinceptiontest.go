@@ -33,9 +33,9 @@ package urinceptiontest
 
 import (
 	"fmt"
-	"io/ioutil"
 	"net"
 	"net/http"
+	"os"
 	"strings"
 	"sync"
 
@@ -91,7 +91,7 @@ func StringUri(data string) string {
 
 // Create a URI returning the contents of the file provided
 func FileUri(filename string) string {
-	bytes, err := ioutil.ReadFile(filename)
+	bytes, err := os.ReadFile(filename)
 	if err != nil {
 		return WithStatus("", http.StatusInternalServerError)
 	} else {

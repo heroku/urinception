@@ -3,7 +3,7 @@ package web
 import (
 	"encoding/base64"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"regexp"
@@ -80,7 +80,7 @@ func handlePost(res http.ResponseWriter, req *http.Request) {
 		scheme = "https"
 	}
 
-	data, err := ioutil.ReadAll(req.Body)
+	data, err := io.ReadAll(req.Body)
 	if err != nil {
 		log.Println("post.error.body:", err)
 		http.Error(res, "Error reading request body: "+err.Error(), http.StatusBadRequest)
