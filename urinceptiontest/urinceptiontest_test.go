@@ -1,7 +1,7 @@
 package urinceptiontest
 
 import (
-	"io/ioutil"
+	"io"
 	"net/http"
 	"testing"
 )
@@ -10,9 +10,15 @@ func TestNullUri(t *testing.T) {
 	txt := "hello world"
 	uri := StringUri(txt)
 
-	res, _ := http.Get(uri)
+	res, err := http.Get(uri)
+	if err != nil {
+		t.Fatal(err)
+	}
 	defer res.Body.Close()
-	bytes, _ := ioutil.ReadAll(res.Body)
+	bytes, err := io.ReadAll(res.Body)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	obtained := string(bytes)
 	expected := txt
