@@ -20,7 +20,7 @@ a given response body:
 	// pass the URI to the system under test
 	res, _ := http.Get(uri)
 	defer res.Body.Close()
-	bytes, _ := ioutil.ReadAll(res.Body)
+	bytes, _ := io.ReadAll(res.Body)
 
 	// assert the result
 	obtained := string(bytes)
@@ -33,9 +33,9 @@ package urinceptiontest
 
 import (
 	"fmt"
-	"io/ioutil"
 	"net"
 	"net/http"
+	"os"
 	"strings"
 	"sync"
 
@@ -91,7 +91,7 @@ func StringUri(data string) string {
 
 // Create a URI returning the contents of the file provided
 func FileUri(filename string) string {
-	bytes, err := ioutil.ReadFile(filename)
+	bytes, err := os.ReadFile(filename)
 	if err != nil {
 		return WithStatus("", http.StatusInternalServerError)
 	} else {

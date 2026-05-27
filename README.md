@@ -81,7 +81,7 @@ a given response body:
     // pass the URI to the system under test
     res, _ := http.Get(uri)
     defer res.Body.Close()
-    bytes, _ := ioutil.ReadAll(res.Body)
+    bytes, _ := io.ReadAll(res.Body)
 
     // assert the result
     obtained := string(bytes)
